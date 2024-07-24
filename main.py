@@ -13,6 +13,12 @@ try:
 except FileNotFoundError:
     raise HTTPException(status_code=404, detail="Archivo de datos no encontrado")
 
+# Leer el DataFrame desde el archivo pickle
+try:
+    data_credits = pd.read_pickle('credits.pkl')
+except FileNotFoundError:
+    raise HTTPException(status_code=404, detail="Archivo de datos no encontrado")
+
 
 @app.get("/cantidad_filmaciones_mes/{Mes}")
 def cantidad_filmaciones_mes(Mes:str):
@@ -47,7 +53,7 @@ def cantidad_filmaciones_mes(Mes:str):
   mes = mes_dict[Mes]
     #Obtenemos la catidad de peliculas que se lanzaron en el mes
   cantidad_filmaciones = data_movies[data_movies['release_date'].dt.month == mes].shape[0]
-  return cantidad_filmaciones , "cantidad de peliculas que fueron estrenadas el mes de ",Mes
+  return str(cantidad_filmaciones) + " es la cantidad de peliculas que fueron estrenadas el mes de "+str(Mes)
 
 @app.get("/cantidad_filmaciones_dia/{dia}")
 def cantidad_filmaciones_dia(dia):
@@ -72,7 +78,7 @@ def cantidad_filmaciones_dia(dia):
     dia = dia_dict[dia]
     #Obtenemos la catidad de peliculas que se lanzaron en el mes
     cantidad_filmaciones = data_movies[data_movies['release_date'].dt.month == dia].shape[0]
-    return cantidad_filmaciones , "cantidad de peliculas que fueron estrenadas el dia ",dia
+    return str(cantidad_filmaciones) + " es la cantidad de peliculas que fueron estrenadas el dia "+ str(dia)
 
 @app.get("/score_film/{titulo}")
 def score_titulo( titulo ): 
@@ -123,4 +129,88 @@ def votos_titulo( titulo ):
 
         raise HTTPException(status_code=400, detail="Error al ingresar el nombre de la pelicula o no se encuntra dentro de lista de peliculas de eta plataforma")
 
+@app.get("/actors/{name_actor}")
+def get_actor( name_actor ):
+    """ Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
+    Además, la cantidad de películas que en las que ha participado y el promedio de retorno."""
+
+    val_return = []
+    count = 0
+    bandera=False
+
+    for index,row in data_credits.iterrows():
+        
+            lista_actors = row["Actors/Actress"]
+            
+
+            if name_actor in lista_actors:
+                retun = row["return"]
+                val_return.append(retun)
+                count +=1
+                bandera=True
     
+    if bandera == False:
+         raise HTTPException(status_code=400, detail="Error al ingresar el nombre del director o actriz o no se encuntra dentro de lista de actores o actrices")
+
+    suma_return = round(sum(val_return) ,3) 
+    promedio = round(suma_return / len(val_return) ,3)     
+
+    return "El actor " + name_actor + " ha participado en " + str(count) + " peliculas , el mismo ha consegido un retorno de "+str(suma_return)+" con un promedio de "+str(promedio)
+                
+  
+@app.get("/director/{nombre_director}") 
+def get_director( nombre_director ): 
+    """Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno.
+      Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma"""
+    
+    val_return = []
+    count = 0
+    name = []
+    fecha = []
+    costo = []
+    ganancia = []
+    bandera = False
+
+  
+
+    for index,row in data_credits.iterrows():
+        
+            lista_director = row["Director"]
+            
+
+            if nombre_director in lista_director:
+                retun = row["return"]
+                name.append(row["title"])
+                fecha.append(row["release_year"])
+                costo.append(row["budget"])
+                ganancia.append(row["revenue"])
+                val_return.append(retun)
+                count +=1
+                bandera = True
+    
+
+
+    suma_return = round(sum(val_return) ,3) 
+    
+    if bandera == False:
+         raise HTTPException(status_code=400, detail="Error al ingresar el nombre del director  o no se encuntra dentro de lista de directores")
+    
+    lista_dict = []
+    
+    
+    # Iterar sobre las claves y los valores combinados
+    for name,fecha,costo,ganancia in zip(name,fecha,costo,ganancia):
+      dicc = {
+           "Director":nombre_director,
+           "Retorno":suma_return,
+           "Numero pelis":count,
+           "Titulo Pelicula":name,
+           "Fecha lanzamiento":fecha,
+           "Costo":costo,
+           "Ganancia":ganancia
+         
+            }
+      lista_dict.append(dicc)
+
+    return    lista_dict
+     
