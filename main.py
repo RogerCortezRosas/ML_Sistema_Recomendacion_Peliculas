@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI, HTTPException
 import pandas as pd
+from sklearn.neighbors import NearestNeighbors
+
 
 
 app = FastAPI()
@@ -213,4 +215,39 @@ def get_director( nombre_director ):
       lista_dict.append(dicc)
 
     return    lista_dict
-     
+
+
+@app.get("/recomendacion/{titulo_pelicula}") 
+def recomendar_peliculas_por_puntuacion(titulo_pelicula):
+    """Función para recomendar películas basadas en vecinos mas cercanos"""
+    
+    peliculas = data_movies['title'].tolist()
+
+    if titulo_pelicula not in peliculas:
+        raise HTTPException(status_code=400, detail="Error al ingresar el nombre de la pelicula  o no se encuentra dentro de lista de peliculas de esta plataforma")
+
+    #Crear una matriz de puntuaciones
+    matriz_puntuaciones = data_movies[['id', 'vote_average']].set_index('id')
+    # Crear el modelo KNN
+    modelo_knn = NearestNeighbors(n_neighbors=6, metric='cosine')
+    # Entrenar el modelo 
+    modelo_knn.fit(matriz_puntuaciones)
+
+    # Obtener el índice de la película objetivo
+    id_pelicula_objetivo = data_movies[data_movies['title'] == titulo_pelicula]['id'].values[0]
+
+    # Obtener la puntuacion de la película objetivo
+    puntuacion_objetivo = matriz_puntuaciones.loc[[id_pelicula_objetivo]]
+
+    # Encontrar los vecinos más cercanos
+    distancias, indices = modelo_knn.kneighbors(puntuacion_objetivo)
+
+    # Obtener los títulos de las películas recomendadas
+    indices_recomendados = indices.flatten()[1:]  # Excluir la película objetivo misma
+    recomendaciones = data_movies[data_movies['id'].isin(matriz_puntuaciones.index[indices_recomendados])]
+
+    #Obtenemos en una lista los titulos
+
+    lista_pelis = recomendaciones['title'].tolist()
+
+    return "Te recomendamos ver  las siguientes peliculas",lista_pelis
