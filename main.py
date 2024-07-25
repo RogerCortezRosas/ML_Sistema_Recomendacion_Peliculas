@@ -2,8 +2,8 @@
 
 from fastapi import FastAPI, HTTPException
 import pandas as pd
-from sklearn.neighbors import NearestNeighbors
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 app = FastAPI()
@@ -226,28 +226,28 @@ def recomendar_peliculas_por_puntuacion(titulo_pelicula):
     if titulo_pelicula not in peliculas:
         raise HTTPException(status_code=400, detail="Error al ingresar el nombre de la pelicula  o no se encuentra dentro de lista de peliculas de esta plataforma")
 
-    #Crear una matriz de puntuaciones
-    matriz_puntuaciones = data_movies[['id', 'vote_average']].set_index('id')
-    # Crear el modelo KNN
-    modelo_knn = NearestNeighbors(n_neighbors=6, metric='cosine')
-    # Entrenar el modelo 
-    modelo_knn.fit(matriz_puntuaciones)
+    # Vectorizar las descripciones usando TF-IDF
+    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = tfidf.fit_transform(data_movies['overview'])
 
-    # Obtener el índice de la película objetivo
-    id_pelicula_objetivo = data_movies[data_movies['title'] == titulo_pelicula]['id'].values[0]
+    # Obtener el índice de la película dada
+    idx = data_movies[data_movies['title'] == titulo_pelicula].index[0]
 
-    # Obtener la puntuacion de la película objetivo
-    puntuacion_objetivo = matriz_puntuaciones.loc[[id_pelicula_objetivo]]
 
-    # Encontrar los vecinos más cercanos
-    distancias, indices = modelo_knn.kneighbors(puntuacion_objetivo)
+    # Calcular la similitud del coseno entre la película dada y todas las demás
+    cosine_sim = cosine_similarity(tfidf_matrix[idx], tfidf_matrix).flatten()
 
-    # Obtener los títulos de las películas recomendadas
-    indices_recomendados = indices.flatten()[1:]  # Excluir la película objetivo misma
-    recomendaciones = data_movies[data_movies['id'].isin(matriz_puntuaciones.index[indices_recomendados])]
+   # Ordenar las películas por la similitud en orden descendente
+    sim_scores = list(enumerate(cosine_sim))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    #Obtenemos en una lista los titulos
+    # Seleccionar las más cercanas (excluyendo la propia película)
+    sim_scores = sim_scores[1:5+1]
+    
+    # Obtener los índices de las películas recomendadas
+    movie_indices = [i[0] for i in sim_scores]
 
-    lista_pelis = recomendaciones['title'].tolist()
+    lista_pelis = data_movies['title'].iloc[movie_indices].tolist()
+
 
     return "Te recomendamos ver  las siguientes peliculas",lista_pelis
