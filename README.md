@@ -1,27 +1,31 @@
-# Deploy FastAPI on Render
+# Sistema de recomendacion de peliculas
 
-Use this repo as a template to deploy a Python [FastAPI](https://fastapi.tiangolo.com) service on Render.
+## Descripcion
 
-See https://render.com/docs/deploy-fastapi or follow the steps below:
+Este proyecto implementaun sitema de recomendacion urilizando tecnicas de Machine Learning . El objetivo es recomendar peliculas en base a un pelicula ya vista o visitada , en la funcion /recomendacion/ dentro del archivo main.py se define comoparametro 'titulo_pelicula' y como retorno las recomendaciones de las 5 peliculas mas parecidas a esa.
 
-## Manual Steps
+## Contenido archivos
 
-1. You may use this repository directly or [create your own repository from this template](https://github.com/render-examples/fastapi/generate) if you'd like to customize the code.
-2. Create a new Web Service on Render.
-3. Specify the URL to your new repository or this repository.
-4. Render will automatically detect that you are deploying a Python service and use `pip` to download the dependencies.
-5. Specify the following as the Start Command.
+- credits.pkl : Este archivo es la data ya limpia y transformada del archivo originas credits.pkl .Este archivo contiene como informacion util el nombre de los actores y directores  en cada peliculas 
+- peliculas.pkl : Este archivo es la data ya limpia y transformada del archivo original movies.csv . Este archivo contiene informacion de las peliculas como son:
+ * Nombre depelicula
+ * Costo
+ * Retorno
+ * Compañia
+ * etc 
+ En el archivo Diccionario de Datos.xlsx viene especificado cada una de las columnas
+ - ETL: Contiene el codigo de la extraccion , transformacion y caarga de los datos. 
+ - Modelo_Recomendacion_EDA : Es el archivo que contiene el codigo en dodne se visualiza la informacionmediante graficas y ademas contiene le codigo del modelo de recomendacion.
+ - main.py : Es el archivo que contiene las funciones y que es ejecutado desde render
+  - requirements.txt :Contiene las bibliotecas utilizadas
 
-    ```shell
-    uvicorn main:app --host 0.0.0.0 --port $PORT
-    ```
+# Render API
+- https://ml-sistema-recomendacion-peliculas.onrender.com
 
-6. Click Create Web Service.
 
-Or simply click:
+### Requisitos
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/fastapi)
+- Python 3.9.11
+- Bibliotecas especificadas en `requirements.txt`
 
-## Thanks
 
-Thanks to [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
