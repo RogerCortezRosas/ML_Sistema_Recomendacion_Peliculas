@@ -79,7 +79,7 @@ def cantidad_filmaciones_dia(dia):
      # obtenemos el valor numeroo del mes
     dia = dia_dict[dia]
     #Obtenemos la catidad de peliculas que se lanzaron en el mes
-    cantidad_filmaciones = data_movies[data_movies['release_date'].dt.month == dia].shape[0]
+    cantidad_filmaciones = data_movies[data_movies['release_date'].dt.day == dia].shape[0]
     return str(cantidad_filmaciones) + " es la cantidad de peliculas que fueron estrenadas el dia "+ str(dia)
 
 @app.get("/score_film/{titulo}")
