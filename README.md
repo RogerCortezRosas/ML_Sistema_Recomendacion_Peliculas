@@ -122,7 +122,7 @@ Este análisis explora un dataset que contiene información de películas, inclu
 
 Rogelio Cortez Rosas
 
-**Contacto**
+## Contacto
 
 correo : rcortezrosas@gmail.com
 
