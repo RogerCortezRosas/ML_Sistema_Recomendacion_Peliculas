@@ -70,20 +70,6 @@ Este análisis explora un dataset que contiene información de películas, inclu
 <table>
   <tr>
     <td>
-      <img src="imagenes/paises.png" width="2100">
-    </td>
-    <td style="vertical-align: top; padding-left: 20px;">
-      <h3>Top paises con mas peliculas </h3>
-      <p>
-        En esta grafica se muestra la distribucion de la cantidad de peliculas que tiene cada pais
-      </p>
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>
       <img src="imagenes/generos.png" width="2100">
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
