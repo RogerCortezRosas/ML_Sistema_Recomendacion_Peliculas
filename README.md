@@ -95,6 +95,20 @@ Este análisis explora un dataset que contiene información de películas, inclu
   </tr>
 </table>
 
+<table>
+  <tr>
+    <td>
+      <img src="imagenes/companias.png" width="2100">
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <h3>Compañias con mas peliculas</h3>
+      <p>
+        En esta grafica se muestra la distribucion de las compañias que tienen mayor cantidad de peliculas.
+      </p>
+    </td>
+  </tr>
+</table>
+
 
 # Render API
 - https://ml-sistema-recomendacion-peliculas.onrender.com/docs
