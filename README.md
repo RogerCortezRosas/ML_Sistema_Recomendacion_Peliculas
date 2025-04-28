@@ -2,7 +2,7 @@
 ![imagen](imagenes/movies.jpg)
 ## Descripcion
 
-Este proyecto implementa un sitema de recomendacion utilizando tecnicas de Machine Learning . El objetivo es recomendar peliculas en base a un pelicula ya vista o visitada , en la funcion /recomendacion/ dentro del archivo main.py se define comoparametro 'titulo_pelicula' y como retorno las recomendaciones de las 5 peliculas mas parecidas a esa.
+Este proyecto implementa un ssitema de recomendacion utilizando tecnicas de Machine Learning . El objetivo es recomendar peliculas en base a un pelicula ya vista o visitada , en la funcion /recomendacion/ dentro del archivo main.py se define comoparametro 'titulo_pelicula' y como retorno las recomendaciones de las 5 peliculas mas parecidas a esa.
 
 ## Contenido archivos
 
@@ -24,15 +24,76 @@ Este proyecto implementa un sitema de recomendacion utilizando tecnicas de Machi
 
 El api contien un total de 6 funciones las cuales son las siguientes:
 
-- GET /cantidad_filmaciones:Se ingresa un mes en idioma Español. Debe devolver la cantidad de películas que fueron estrenadas en el mes consultado en la totalidad del dataset.
-- GET /cantidd_fimaciones_dia: Se ingresa un mes en idioma Español. Debe devolver la cantidad de películas que fueron estrenadas en el dia consultado en la totalidad del dataset.
-- GET /score_film : Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score.
-- GET /votes_film : Se ingresa el título de una filmación esperando como respuesta el título, la cantidad de votos y el valor promedio de las votaciones. La misma variable deberá de contar con al menos 2000 valoraciones, caso contrario, se regresa un mensaje avisando que no cumple esta condición y que por ende, no se devuelve ningun valor.
-- GET /actors : Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, la cantidad de películas que en las que ha participado y el promedio de retorno.
-- GET /director : Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.
-- GET /recomendacion : Función para recomendar películas basadas en vecinos mas cercanos
+- **GET /cantidad_filmaciones :** Se ingresa un mes en idioma Español. Debe devolver la cantidad de películas que fueron estrenadas en el mes consultado en la totalidad del dataset.
+- **GET /cantidd_fimaciones_dia :** Se ingresa un mes en idioma Español. Debe devolver la cantidad de películas que fueron estrenadas en el dia consultado en la totalidad del dataset.
+- **GET /score_film :** Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score.
+- **GET /votes_film :** Se ingresa el título de una filmación esperando como respuesta el título, la cantidad de votos y el valor promedio de las votaciones. La misma variable deberá de contar con al menos 2000 valoraciones, caso contrario, se regresa un mensaje avisando que no cumple esta condición y que por ende, no se devuelve ningun valor.
+- **GET /actors :** Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, la cantidad de películas que en las que ha participado y el promedio de retorno.
+- **GET /director :** Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.
+- **GET /recomendacion :** Función para recomendar películas basadas en vecinos mas cercanos
 
 ![imagen](imagenes/fast.png)
+
+
+## Analisis Exploratorio (EDA)
+
+Este análisis explora un dataset que contiene información de películas, incluyendo títulos, descripciones, compañías productoras, géneros y países de origen. El objetivo es identificar patrones, tendencias y relaciones clave en los datos para entender mejor la industria cinematográfica.
+
+<table>
+  <tr>
+    <td>
+      <img src="imagenes/votos.png" width="2100">
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <h3>Distribucion de votos </h3>
+      <p>
+        En esta grafica se muestra la distribucion de los votos,siendo 6 y 7 las calificaciones mas comunes
+      </p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>
+      <img src="imagenes/paises.png" width="2100">
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <h3>Top paises con mas peliculas </h3>
+      <p>
+        En esta grafica se muestra la distribucion de la cantidad de peliculas que tiene cada pais
+      </p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>
+      <img src="imagenes/paises.png" width="2100">
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <h3>Top paises con mas peliculas </h3>
+      <p>
+        En esta grafica se muestra la distribucion de la cantidad de peliculas que tiene cada pais
+      </p>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>
+      <img src="imagenes/generos.png" width="2100">
+    </td>
+    <td style="vertical-align: top; padding-left: 20px;">
+      <h3>Distribucion de generos </h3>
+      <p>
+        En esta grafica se muestra la distribucion de los generos.
+      </p>
+    </td>
+  </tr>
+</table>
 
 
 # Render API
