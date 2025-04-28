@@ -20,6 +20,8 @@ Este proyecto implementa un sitema de recomendacion utilizando tecnicas de Machi
 - requirements.txt :Contiene las bibliotecas utilizadas
 
 ## Funciones de main
+
+
 El api contien un total de 6 funciones las cuales son las siguientes:
 
 - GET /cantidad_filmaciones:Se ingresa un mes en idioma Español. Debe devolver la cantidad de películas que fueron estrenadas en el mes consultado en la totalidad del dataset.
@@ -30,6 +32,7 @@ El api contien un total de 6 funciones las cuales son las siguientes:
 - GET /director : Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.
 - GET /recomendacion : Función para recomendar películas basadas en vecinos mas cercanos
 
+![imagen](imagenes/fast.png)
 
 
 # Render API
